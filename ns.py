@@ -1,5 +1,6 @@
 import sys, getopt, requests
-from bs4 import BeautifulSoup
+import xml.etree.ElementTree as ET
+
 
 
 def main(argv):
@@ -24,14 +25,20 @@ def main(argv):
             tijd = arg
         elif opt == '-d':
             datum = arg
-    url = 'https://www.ns.nl/reisplanner/#/?aankomst=' + aankomst + '&aankomsttype=treinstation&tijd=' + datum + 'T' + \
-          tijd + '&type=vertrek&vertrek=' + vertrek + '&vertrektype=treinstation'
-    res = requests.get(url)
-    soup = BeautifulSoup(res.text, "lxml")
-    elem = soup.find_all("div", class_="Stop__departureTime")
+    url = 'http://webservices.ns.nl/ns-api-treinplanner?fromStation=' + vertrek + '&toStation=' + aankomst
+    res = requests.get(url, auth=('mail', 'password'))
+    xml = res.content
+    #xmlc = ET.parse(xml)
+    getstring = ET.fromstring(xml)
+    #print(xml)
+    #print(res)
+    print(getstring[0][6].text)
+    for iit in range(0, (len(getstring))):
 
-    print(elem)
-
+        vertrekTijdString = getstring[0][1].find('GeplandeVertrekTijd').text
+        vertrekTijd = vertrekTijdString
+        print(iit)
+        print(type(vertrekTijd))
 
 if __name__ == "__main__":
     main(sys.argv[1:])
