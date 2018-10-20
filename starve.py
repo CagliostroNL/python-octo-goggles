@@ -34,7 +34,7 @@ def main(argv):
         adr = RandMAC()
         sendp(Ether(src=adr, dst=brmac)/IP(src='0.0.0.0', dst='255.255.255.255')/UDP(sport=68, dport=67)/BOOTP(chaddr=adr)/DHCP(options=[('message-type', 'request'),("server_id",str(serverid)), ("requested_addr",str(network) + str(ip)), 'end']))
         print("requesting ip " + str(network) + str(ip))
-        time.sleep(2)
+        time.sleep(3)
     
     
 
