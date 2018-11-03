@@ -2,7 +2,8 @@
 
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen, Request
-import sys, getopt
+import sys
+import getopt
 
 
 def google(opt1):
